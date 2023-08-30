@@ -5,10 +5,12 @@ import './newTodo.css';
 
 import { useState } from 'react';
 
+import * as todoServices from '@/services/todoServices';
+
 const categoriesList = [ 'Academic', 'Personal' ]; // temporary
 
-// import { sanitizeString } from '@/resources/validations/sanitizations';
-// import { dueDateValidation, titleValidation } from '@/resources/validations';
+import { sanitizeString } from '@/resources/sanitization';
+import { dueDateValidation, titleValidation } from '@/resources/validations';
 
 export default function NewTodo() {
 	let i = 0; // for the category map
@@ -18,39 +20,44 @@ export default function NewTodo() {
 	const [ dueDate, setDueDate ] = useState('');
 	const [ category, setCategory ] = useState('');
 
-	function handleSubmit(e) {
-	// 	e.preventDefault();
+	async function handleSubmit(e) {
+		e.preventDefault();
 
-		// 	console.log(`title = ${title}`);
-		// 	console.log(`description = ${description}`);
-		// 	console.log(`dueDate = ${dueDate}`);
-		// 	console.log(`category = ${category}`);
+		console.log(`title = ${title}`);
+		console.log(`description = ${description}`);
+		console.log(`dueDate = ${dueDate}`);
+		console.log(`category = ${category}`);
 
-		// 	const formattedDueDate = new Date(dueDate);
+		const formattedDueDate = new Date(dueDate);
+		console.log(`formattedDueDate = ${formattedDueDate}`);
 
-		// 	// sanitize
-		// 	const cleanTitle = sanitizeString(title);
-		// 	const cleanDescripiton = sanitizeString(description);
-		// 	const cleanCategory = sanitizeString(category);
+		// // sanitize
+		// const cleanTitle = sanitizeString(title);
+		// const cleanDescripiton = sanitizeString(description);
+		// const cleanCategory = sanitizeString(category);
 
-		// 	// title validation
-		// 	if (!titleValidation(cleanTitle)) {
-		// 		window.alert('Invalid Title');
-		// 		return;
-		// 	}
+		// // title validation
+		// if (!titleValidation(cleanTitle)) {
+		// 	window.alert('Invalid Title');
+		// 	return;
+		// }
 
-		// 	// due date validation
-		// 	if(!dueDateValidation(formattedDueDate)) {
-		// 		window.alert('Invalid due date');
-		// 		return;
-		// 	}
+		// // due date validation
+		// if(!dueDateValidation(formattedDueDate)) {
+		// 	window.alert('Invalid due date');
+		// 	return;
+		// }
 
-		// 	// description validation
+		// const todoData = {
+		// 	title:  cleanTitle,
+		// 	description: cleanDescripiton,
+		// 	category: cleanCategory
+		// };
 
-		// 	// category validation
+		// const createTodoRes = await todoServices.createTodo(todoData);
 
-	// 	// TODO: fetch api
-	// 	// TODO: redirect to home
+		// window.alert(createTodoRes.message);
+		// return;
 	}
 
 	return (
