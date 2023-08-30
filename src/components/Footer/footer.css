@@ -1,0 +1,18 @@
+footer {
+	width: 100%;
+	height: 100px;
+
+	background-color: var(--foreground-color);
+	color: var(--highlight-color);
+
+	font-size: 0.8em;
+
+	border-top: none;
+	box-shadow: var(--box-shadow);
+}
+
+.icon {
+	position: fixed;
+	bottom: 10px;
+	right: 10px;
+}
