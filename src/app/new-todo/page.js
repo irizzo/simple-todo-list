@@ -5,11 +5,13 @@ import './newTodo.css';
 
 import { useState } from 'react';
 
-// import categoriesList from '@/resources/categories';
+const categoriesList = [ 'Academic', 'Personal' ]; // temporary
+
 // import { sanitizeString } from '@/resources/validations/sanitizations';
 // import { dueDateValidation, titleValidation } from '@/resources/validations';
 
 export default function NewTodo() {
+	let i = 0; // for the category map
 
 	const [ title, setTitle ] = useState('');
 	const [ description, setDescription ] = useState('');
@@ -69,18 +71,19 @@ export default function NewTodo() {
 				<input name="dueDate" type="datetime-local" onChange={(e) => { setDueDate(e.target.value); }}></input>
 			</section>
 
-			{/* <section className='form-item'>
+			<section className='form-item'>
 				<label htmlFor="category">Category</label>
 				<select id="category" onChange={(e) => { setCategory(e.target.value); }}>
-					<option value="">--Please choose an option--</option>
+					<option value="" disabled selected>--Please choose an option--</option>
 
-					{categoriesList.map((status) => {
+					{categoriesList.map((category) => {
+						i++;
 						return (
-							<option key={status.code} value={status.code}>{status.name}</option>
+							<option key={i} value={category}>{category}</option>
 						);
 					})}
 				</select>
-			</section> */}
+			</section>
 			<button className='outlined' type='submit'>Save</button>
 		</form>
 	);
