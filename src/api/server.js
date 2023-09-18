@@ -1,4 +1,5 @@
-require('./firebaseConfig');
+require('dotenv/config');
+require('./firebaseConfig.js');
 
 const express = require('express');
 const cors = require('cors');
@@ -8,6 +9,9 @@ const todoController = require('./controllers/todoController');
 const app = express();
 const port = process.env.API_PORT;
 
+// const corsOptions = {
+// 	origin: process.env.BASE_CLIENT_URL
+// }
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
