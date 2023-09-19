@@ -6,6 +6,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 
 const todoController = require('./controllers/todoController');
+const categoryController = require('./controllers/categoryController')
 
 const app = express();
 const port = process.env.API_PORT;
@@ -24,6 +25,8 @@ app.get('/', (req, res) => {
 });
 
 app.post('/create-todo', todoController.createTodo);
+
+app.post('/create-category', categoryController.createCategory);
 
 app.listen(port, () => {
 	console.log(`listening on port ${port}`);
