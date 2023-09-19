@@ -8,6 +8,7 @@ form {
 	min-height: fit-content;
 	min-width: fit-content;
 	width: 60%;
+	height: 90%;
 	padding: 2% 0%;
 
 	border: solid 1.5px var(--shadow-color);
