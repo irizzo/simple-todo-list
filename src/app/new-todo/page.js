@@ -1,7 +1,6 @@
 'use client';
 
 import '@/styles/globalForm.css';
-import './newTodo.css';
 
 import { useState } from 'react';
 
