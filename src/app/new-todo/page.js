@@ -23,41 +23,40 @@ export default function NewTodo() {
 	async function handleSubmit(e) {
 		e.preventDefault();
 
-		console.log(`title = ${title}`);
-		console.log(`description = ${description}`);
-		console.log(`dueDate = ${dueDate}`);
-		console.log(`category = ${category}`);
-
 		const formattedDueDate = new Date(dueDate);
-		console.log(`formattedDueDate = ${formattedDueDate}`);
 
-		// // sanitize
-		// const cleanTitle = sanitizeString(title);
-		// const cleanDescripiton = sanitizeString(description);
-		// const cleanCategory = sanitizeString(category);
+		// sanitize
+		const cleanTitle = sanitizeString(title);
+		const cleanDescripiton = sanitizeString(description);
+		const cleanCategory = sanitizeString(category);
 
-		// // title validation
-		// if (!titleValidation(cleanTitle)) {
-		// 	window.alert('Invalid Title');
-		// 	return;
-		// }
+		// title validation
+		if (!titleValidation(cleanTitle)) {
+			window.alert('Invalid Title');
+			return;
+		}
 
-		// // due date validation
-		// if(!dueDateValidation(formattedDueDate)) {
-		// 	window.alert('Invalid due date');
-		// 	return;
-		// }
+		// due date validation
+		if(!dueDateValidation(formattedDueDate)) {
+			window.alert('Invalid due date');
+			return;
+		}
 
-		// const todoData = {
-		// 	title:  cleanTitle,
-		// 	description: cleanDescripiton,
-		// 	category: cleanCategory
-		// };
+		const todoData = {
+			title:  cleanTitle,
+			description: cleanDescripiton,
+			dueDate: formattedDueDate,
+			category: cleanCategory
+		};
 
-		// const createTodoRes = await todoServices.createTodo(todoData);
+		console.log(`todoData = ${JSON.stringify(todoData)}`);
 
-		// window.alert(createTodoRes.message);
-		// return;
+		const createTodoRes = await todoServices.createTodo(todoData);
+
+		console.log(`createTodoRes = ${JSON.stringify(createTodoRes)}`);
+
+		window.alert(createTodoRes?.message || 'Internal Error. try Again Later');
+		return;
 	}
 
 	return (
@@ -81,7 +80,7 @@ export default function NewTodo() {
 			<section className='form-item'>
 				<label htmlFor="category">Category</label>
 				<select id="category" onChange={(e) => { setCategory(e.target.value); }}>
-					<option value="" disabled selected>--Please choose an option--</option>
+					<option value="" disabled defaultValue={false}>--Please choose an option--</option>
 
 					{categoriesList.map((category) => {
 						i++;

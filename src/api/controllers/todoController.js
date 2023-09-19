@@ -9,6 +9,7 @@ async function createTodo(req, res) {
 	try {
 		console.log('[/createTodo] (controller)');
 		console.log(`JSON.stringify(req.body)= ${JSON.stringify(req.body)}`);
+		console.log(`JSON.stringify(req.headers)= ${JSON.stringify(req.headers)}`);
 
 		const { title, description, dueDate, category } = req.body;
 
@@ -29,7 +30,7 @@ async function createTodo(req, res) {
 
 		cleanTodo.dueDate = dueDate; // TODO: sanitize date
 
-		cleanTodo.category = sanitizeString(category); // TODO: sanitize date
+		cleanTodo.category = sanitizeString(category); // TODO: sanitize category
 
 		// validação
 		if (!titleValidation(cleanTodo.title)) {

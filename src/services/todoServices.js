@@ -1,10 +1,12 @@
 import httpClient from './http/client';
 import dictionary from '@/resources/dictionary';
 
-export async function createTodo(todo) {
+export async function createTodo(todoData) {
 	console.log('[serviceCreateTodo]');
 
-	const createTodoResponse = await httpClient.post({ path: '/create-todo', payload: todo });
+	console.log(`todoData = ${JSON.stringify(todoData)}`);
+
+	const createTodoResponse = await httpClient.post({ path: '/create-todo', payload: todoData });
 
 	if (createTodoResponse.status === 200) {
 		console.log('createTodoResponse status 200');

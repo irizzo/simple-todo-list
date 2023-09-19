@@ -1,31 +1,34 @@
-const httpClient = ({ baseURL, customHeaders = {} }) => {
+require('dotenv/config');
+
+const httpClient = ({ baseURL}) => {
 	const defaultHeaders = new Headers({
-		headers: {
-			'Content-type': 'application/json; charset=UTF-8',
-			...customHeaders
-		}
+		'Content-type': 'application/json; charset=UTF-8',
 	});
 
 	return {
 		post: async ({ path, payload }) => {
-			const request = await fetch(`${baseURL}/${path}`, {
+			console.log(`[post] path = ${baseURL}${path}`);
+
+			const res = await fetch(`${baseURL}${path}`, {
 				method: 'POST',
-				headers: defaultHeaders,
-				data: JSON.stringify(payload)
+				body: JSON.stringify(payload),
+				headers: defaultHeaders
 			});
 
-			return request?.json();
+			return res.json();
 		},
 		get: async (path) => {
-			const request = await fetch(`${baseURL}/${path}`, {
+			console.log(`[get] path = ${baseURL}${path}`);
+
+			const res = await fetch(`${baseURL}${path}`, {
 				method: 'GET',
 				headers: defaultHeaders,
 				data: JSON.stringify(payload)
 			});
 
-			return request?.json();
+			return res.json();
 		}
 	};
 };
 
-export default httpClient({ baseURL: process.env.BASE_API_URL });
+export default httpClient({ baseURL: 'http://localhost:8080' });
