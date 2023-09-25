@@ -9,10 +9,10 @@ const todoController = require('./controllers/todoController');
 const categoryController = require('./controllers/categoryController')
 
 const app = express();
-const port = process.env.API_PORT;
+const port = 8080;
 
 const corsOptions = {
-	origin: process.env.BASE_CLIENT_URL
+	origin: 'http://localhost:3000'
 };
 
 app.use(express.urlencoded({ extended: true }));

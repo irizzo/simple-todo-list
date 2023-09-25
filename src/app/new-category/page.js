@@ -10,8 +10,8 @@ import { titleValidation } from '@/resources/validations';
 import * as categoryServices from '@/services/categoryServices';
 
 export default function NewCategory() {
-	const [title, setTitle] = useState('');
-	const [description, setDescription] = useState('');
+	const [ title, setTitle ] = useState('');
+	const [ description, setDescription ] = useState('');
 
 	async function handleSubmit(e) {
 		e.preventDefault();
@@ -31,7 +31,7 @@ export default function NewCategory() {
 
 		console.log(`categoryData = ${JSON.stringify(categoryData)}`);
 
-		const createCategoryRes = await todoServices.createCategory(todoData);
+		const createCategoryRes = await categoryServices.createCategory(todoData);
 
 		console.log(`createCategoryRes = ${JSON.stringify(createCategoryRes)}`);
 

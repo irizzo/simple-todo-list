@@ -6,13 +6,13 @@ const { getFirestore } = require('firebase/firestore');
 
 
 const firebaseConfig = {
-	apiKey: process.env.FIREBASECONFIG_API_KEY,
-	authDomain: process.env.FIREBASECONFIG_AUTH_DOMAIN,
-	databaseURL: process.env.FIREBASECONFIG_DATABASE_URL,
-	projectId: process.env.FIREBASECONFIG_PROJECT_ID,
-	storageBucket: process.env.FIREBASECONFIG_STORAGE_BUCKET,
-	messagingSenderId: process.env.FIREBASECONFIG_MESSAGING_SENDER_ID,
-	appId: process.env.FIREBASECONFIG_APP_ID
+	apiKey: 'AIzaSyDhWflJ5q5mPhcxSxtMUguNOhtC_hb8bfM',
+	authDomain: 'organize-se-7cbb0.firebaseapp.com',
+	databaseURL: 'https://organize-se-7cbb0-default-rtdb.firebaseio.com',
+	projectId: 'organize-se-7cbb0',
+	storageBucket: 'organize-se-7cbb0.appspot.com',
+	messagingSenderId: '208886022234',
+	appId: '1:208886022234:web:01f280b2cfb87ae78b5863'
 };
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
