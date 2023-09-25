@@ -34,7 +34,7 @@ export default function NewCategory() {
 		const createCategoryRes = await categoryServices.createCategory(categoryData);
 
 		if (createCategoryRes.status === true) {
-			// redirect to home page
+			// TODO: redirect to home page
 			window.alert(createCategoryRes.message || 'Success');
 			return;
 		};

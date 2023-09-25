@@ -52,9 +52,13 @@ export default function NewTodo() {
 
 		const createTodoRes = await todoServices.createTodo(todoData);
 
-		console.log(`createTodoRes = ${JSON.stringify(createTodoRes)}`);
+		if (createTodoRes.status === true) {
+			// TODO: redirect to home page
+			window.alert(createTodoRes.message || 'Success');
+			return;
+		};
 
-		window.alert(createTodoRes?.message || 'Internal Error. try Again Later');
+		window.alert(createTodoRes.message || 'Internal Error. try Again Later');
 		return;
 	}
 

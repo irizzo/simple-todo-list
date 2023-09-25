@@ -34,7 +34,8 @@ async function createTodo(req, res) {
 
 			res.status(400).send({
 				code: 'INVALID_TITLE',
-				result: null
+				result: null,
+				success: false
 			});
 
 			return;
@@ -43,7 +44,8 @@ async function createTodo(req, res) {
 		if(!dueDateValidation(cleanTodo.dueDate)) {
 			res.status(400).send({
 				code: 'INVALID_DUE_DATE',
-				result: null
+				result: null,
+				success: false
 			});
 
 			return;
@@ -58,14 +60,16 @@ async function createTodo(req, res) {
 
 		res.status(200).send({
 			code: 'CREATED_TODO',
-			result: createdTodo
+			result: createdTodo,
+			success: true
 		});
 
 	} catch (error) {
 		console.log(`ERROR: ${error}`);
 		res.status(500).send({
 			code: 'INTERNAL_ERROR',
-			result: error
+			result: error,
+			success: false
 		});
 	}
 }
