@@ -31,11 +31,15 @@ export default function NewCategory() {
 
 		console.log(`categoryData = ${JSON.stringify(categoryData)}`);
 
-		const createCategoryRes = await categoryServices.createCategory(todoData);
+		const createCategoryRes = await categoryServices.createCategory(categoryData);
 
-		console.log(`createCategoryRes = ${JSON.stringify(createCategoryRes)}`);
+		if (createCategoryRes.status === true) {
+			// redirect to home page
+			window.alert(createCategoryRes.message || 'Success');
+			return;
+		};
 
-		window.alert(createCategoryRes?.message || 'Internal Error. try Again Later');
+		window.alert(createCategoryRes.message || 'Internal Error. try Again Later');
 		return;
 	}
 

@@ -24,8 +24,10 @@ app.get('/', (req, res) => {
 	res.send('Hello World!');
 });
 
+// To do routes
 app.post('/create-todo', todoController.createTodo);
 
+// Category routes
 app.post('/create-category', categoryController.createCategory);
 
 app.listen(port, () => {

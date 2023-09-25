@@ -8,14 +8,14 @@ export async function createTodo(todoData) {
 
 	const createTodoResponse = await httpClient.post({ path: '/create-todo', payload: todoData });
 
+	console.log(`createTodoResponse = ${JSON.stringify(createTodoResponse)} `);
+	console.log(`createTodoResponse.status = ${createTodoResponse.status} `);
+	console.log(`message = ${dictionary?.[createTodoResponse.code]}`);
+
 	if (createTodoResponse.status === 200) {
 		console.log('createTodoResponse status 200');
 		return { status: true, message: dictionary?.[createTodoResponse.code] };
 	}
-
-	console.log(`createTodoResponse status = ${createTodoResponse.status} `);
-
-	console.log(dictionary?.[createTodoResponse.code]);
 
 	return { status: false, message: dictionary?.[createTodoResponse.code] };
 }

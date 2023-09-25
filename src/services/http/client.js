@@ -7,8 +7,6 @@ const httpClient = ({ baseURL}) => {
 
 	return {
 		post: async ({ path, payload }) => {
-			console.log(`[post] path = ${baseURL}${path}`);
-
 			const res = await fetch(`${baseURL}${path}`, {
 				method: 'POST',
 				body: JSON.stringify(payload),
@@ -18,8 +16,6 @@ const httpClient = ({ baseURL}) => {
 			return res.json();
 		},
 		get: async (path) => {
-			console.log(`[get] path = ${baseURL}${path}`);
-
 			const res = await fetch(`${baseURL}${path}`, {
 				method: 'GET',
 				headers: defaultHeaders,

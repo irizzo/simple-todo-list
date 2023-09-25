@@ -26,7 +26,8 @@ async function createCategory(req, res) {
 		if (!titleValidation(cleanCategory.title)) {
 			res.status(400).send({
 				code: 'INVALID_TITLE',
-				result: null
+				result: null,
+				success: false
 			});
 
 			return;
@@ -39,14 +40,16 @@ async function createCategory(req, res) {
 
 		res.status(200).send({
 			code: 'CREATED_CATEGORY',
-			result: createdCategory
+			result: createdCategory,
+			success: true
 		});
 
 	} catch (error) {
 		console.log(`ERROR: ${error}`);
 		res.status(500).send({
 			code: 'INTERNAL_ERROR',
-			result: error
+			result: error,
+			success: false
 		});
 	}
 }
