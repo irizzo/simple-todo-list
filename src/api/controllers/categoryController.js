@@ -13,7 +13,8 @@ async function createCategory(req, res) {
 
 		let cleanCategory = {
 			title: '',
-			description: ''
+			description: '',
+			code: ''
 		};
 
 		cleanCategory.title = sanitizeString(title);
@@ -31,12 +32,16 @@ async function createCategory(req, res) {
 			});
 
 			return;
-		}
+		};
+
+		const generatedIdentifierCode = generateIdentifierCode(cleanCategory.title);
+
+		console.log(`generatedIdentifierCode = ${generatedIdentifierCode}`);
+
+		cleanCategory.code = generatedIdentifierCode;
 
 		// create on DB
 		const createdCategory = await createDbCategory(cleanCategory);
-
-		console.log(`[createCategory] createdCategory = ${JSON.stringify(createdCategory)}`);
 
 		res.status(200).send({
 			code: 'CREATED_CATEGORY',
