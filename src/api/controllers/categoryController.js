@@ -2,7 +2,7 @@ const { titleValidation } = require('../../resources/validations');
 const { sanitizeString } = require('../../resources/sanitization');
 const generateIdentifierCode = require('../../resources/generateIdentifier');
 
-const { createDbCategory } = require('../models/categoryModel');
+const categoryModel = require('../models/categoryModel');
 
 async function createCategory(req, res) {
 	try {
@@ -42,7 +42,7 @@ async function createCategory(req, res) {
 		cleanCategory.code = generatedIdentifierCode;
 
 		// create on DB
-		const createdCategory = await createDbCategory(cleanCategory);
+		const createdCategory = await categoryModel.createDbCategory(cleanCategory);
 
 		res.status(200).send({
 			code: 'CREATED_CATEGORY',
@@ -60,6 +60,31 @@ async function createCategory(req, res) {
 	}
 }
 
+async function getAllCategories(req, res) {
+	console.log('[getAllCategories] (controller)');
+
+	try {
+		const categoriesList = await categoryModel.getAllDbCategories();
+
+		console.log(`categoriesList = ${JSON.stringify(categoriesList)}`);
+
+		res.status(200).send({
+			code: 'OK',
+			result: categoriesList,
+			success: true
+		});
+
+	} catch (error) {
+		console.log(`ERROR: ${error}`);
+		res.status(500).send({
+			code: 'INTERNAL_ERROR',
+			result: error,
+			success: false
+		});
+	}
+}
+
 module.exports = {
-	createCategory
+	createCategory,
+	getAllCategories
 };

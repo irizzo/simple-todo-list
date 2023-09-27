@@ -1,6 +1,6 @@
 const { dueDateValidation, titleValidation } = require('../../resources/validations');
 const { sanitizeString } = require('../../resources/sanitization');
-const todoStatusList = require('../../resources/status');
+// const todoStatusList = require('../../resources/status');
 
 const { createDbTodo } = require('../models/todoModel');
 
@@ -16,7 +16,7 @@ async function createTodo(req, res) {
 			description: '',
 			dueDate: new Date(),
 			category: '',
-			status: todoStatusList[0].code
+			status: '' // TODO: add status
 		};
 
 		cleanTodo.title = sanitizeString(title);

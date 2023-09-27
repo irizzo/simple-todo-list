@@ -2,7 +2,7 @@ const { titleValidation } = require('../../resources/validations');
 const { sanitizeString } = require('../../resources/sanitization');
 const generateIdentifierCode = require('../../resources/generateIdentifier');
 
-const { createDbTodoStatus } = require('../models/todoStatusModel');
+const { createDbTodoStatus, getAllDbStatus } = require('../models/todoStatusModel');
 
 async function createTodoStatus(req, res) {
 	try {
@@ -60,6 +60,30 @@ async function createTodoStatus(req, res) {
 	}
 };
 
+async function getAllStatus(req, res) {
+	console.log('[getAllStatus] (controller)');
+	try {
+		const todoStatusList = await getAllDbStatus();
+
+		console.log(`todoStatusList = ${JSON.stringify(todoStatusList)}`);
+
+		res.status(200).send({
+			code: 'OK',
+			result: todoStatusList,
+			success: true
+		});
+
+	} catch (error) {
+		console.log(`ERROR: ${error}`);
+		res.status(500).send({
+			code: 'INTERNAL_ERROR',
+			result: error,
+			success: false
+		});
+	}
+}
+
 module.exports = {
-	createTodoStatus
+	createTodoStatus,
+	getAllStatus
 };
