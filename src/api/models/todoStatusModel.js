@@ -1,4 +1,4 @@
-const { collection, addDoc, query, getDocs } = require('firebase/firestore');
+const { collection, addDoc, query, getDocs, where } = require('firebase/firestore');
 const { db } = require('../firebaseConfig');
 
 const todoStatusCollectionRef = collection(db, 'todoStatus');
@@ -27,7 +27,21 @@ async function getAllDbStatus() {
 	return todoStatusList;
 }
 
+async function getStatusByCode(statusCode) {
+	console.log('[/getStatusByCode]');
+
+	const getTodoStatusQuery = query(todoStatusCollectionRef, where('code', '==', statusCode));
+	const querySnapshot = await getDocs(getTodoStatusQuery);
+
+	if(querySnapshot.length === 0) {
+		return false;
+	}
+
+	return querySnapshot[0].data();
+}
+
 module.exports = {
 	createDbTodoStatus,
-	getAllDbStatus
+	getAllDbStatus,
+	getStatusByCode
 };

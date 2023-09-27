@@ -4,7 +4,17 @@ import dictionary from '@/resources/dictionary';
 export async function createTodo(todoData) {
 	console.log('[serviceCreateTodo]');
 
-	const createTodoResponse = await httpClient.post({ path: '/create-todo', payload: todoData });
+	const createTodoResponse = await httpClient.post({
+		path: '/create-todo',
+		payload: todoData
+	});
 
-	return { status: createTodoResponse.success, message: dictionary?.[createTodoResponse.code] };
+	return {
+		status: createTodoResponse.success,
+		message: dictionary?.[createTodoResponse.code]
+	};
+};
+
+export async function getAllTodos() {
+	
 }

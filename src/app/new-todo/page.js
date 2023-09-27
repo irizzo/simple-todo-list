@@ -2,22 +2,37 @@
 
 import '@/styles/globalForm.css';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import * as todoServices from '@/services/todoServices';
-
-const categoriesList = [ 'Academic', 'Personal' ]; // temporary
+import * as categoryServices from '@/services/categoryServices';
 
 import { sanitizeString } from '@/resources/sanitization';
 import { dueDateValidation, titleValidation } from '@/resources/validations';
 
 export default function NewTodo() {
-	let i = 0; // for the category map
-
 	const [ title, setTitle ] = useState('');
 	const [ description, setDescription ] = useState('');
 	const [ dueDate, setDueDate ] = useState('');
-	const [ category, setCategory ] = useState('');
+	const [ categoryCode, setCategoryCode ] = useState('');
+
+	const [ categoriesList, setCategoriesList ] = useState(false);
+
+	async function loadCategories() {
+		const c = await categoryServices.getCategoriesList();
+
+		if (c.result.length === 0 || c.status === false) {
+			setCategoriesList(false);
+		}
+
+		setCategoriesList(c.result);
+	}
+
+	useEffect(() => {
+		loadCategories();
+	}, []);
+
+	// console.log(`categoriesList = ${JSON.stringify(categoriesList)}`);
 
 	async function handleSubmit(e) {
 		e.preventDefault();
@@ -27,7 +42,7 @@ export default function NewTodo() {
 		// sanitize
 		const cleanTitle = sanitizeString(title);
 		const cleanDescripiton = sanitizeString(description);
-		const cleanCategory = sanitizeString(category);
+		const cleanCategoryCode = sanitizeString(categoryCode);
 
 		// title validation
 		if (!titleValidation(cleanTitle)) {
@@ -45,7 +60,7 @@ export default function NewTodo() {
 			title:  cleanTitle,
 			description: cleanDescripiton,
 			dueDate: formattedDueDate,
-			category: cleanCategory
+			categoryCode: cleanCategoryCode
 		};
 
 		console.log(`todoData = ${JSON.stringify(todoData)}`);
@@ -82,15 +97,18 @@ export default function NewTodo() {
 
 			<section className='form-item'>
 				<label htmlFor="category">Category</label>
-				<select id="category" onChange={(e) => { setCategory(e.target.value); }}>
-					<option value="" disabled defaultValue={false}>--Please choose an option--</option>
+				<select id="category" onChange={(e) => { setCategoryCode(e.target.value); }}>
+					<option defaultValue="">--Please choose an option--</option>
 
-					{categoriesList.map((category) => {
-						i++;
-						return (
-							<option key={i} value={category}>{category}</option>
-						);
-					})}
+					{	categoriesList ?
+						categoriesList.map((category) => {
+							return (
+								<option key={category.code} value={category.code}>{category.title}</option>
+							);
+						})
+						:
+						<option disabled value="">No categories found</option>
+					}
 				</select>
 			</section>
 			<button className='outlined' type='submit'>Save</button>

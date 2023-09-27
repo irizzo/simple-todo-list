@@ -2,7 +2,7 @@ const { titleValidation } = require('../../resources/validations');
 const { sanitizeString } = require('../../resources/sanitization');
 const generateIdentifierCode = require('../../resources/generateIdentifier');
 
-const { createDbTodoStatus, getAllDbStatus } = require('../models/todoStatusModel');
+const todoStatusModel = require('../models/todoStatusModel');
 
 async function createTodoStatus(req, res) {
 	try {
@@ -42,7 +42,7 @@ async function createTodoStatus(req, res) {
 		cleanTodoStatus.code = generatedIdentifierCode;
 
 		// create on DB
-		const createdTodoStatus = await createDbTodoStatus(cleanTodoStatus);
+		const createdTodoStatus = await todoStatusModel.createDbTodoStatus(cleanTodoStatus);
 
 		res.status(200).send({
 			code: 'CREATED_TODO_STATUS',
@@ -63,7 +63,7 @@ async function createTodoStatus(req, res) {
 async function getAllStatus(req, res) {
 	console.log('[getAllStatus] (controller)');
 	try {
-		const todoStatusList = await getAllDbStatus();
+		const todoStatusList = await todoStatusModel.getAllDbStatus();
 
 		console.log(`todoStatusList = ${JSON.stringify(todoStatusList)}`);
 

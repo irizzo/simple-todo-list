@@ -1,22 +1,22 @@
 const { dueDateValidation, titleValidation } = require('../../resources/validations');
 const { sanitizeString } = require('../../resources/sanitization');
-// const todoStatusList = require('../../resources/status');
 
-const { createDbTodo } = require('../models/todoModel');
+const todoModel = require('../models/todoModel');
+const todoStatusModel = require('../models/todoStatusModel');
 
 async function createTodo(req, res) {
 	try {
 		console.log('[/createTodo] (controller)');
 
-		const { title, description, dueDate, category } = req.body;
+		const { title, description, dueDate, categoryCode } = req.body;
 
 		// sanitization
 		let cleanTodo = {
 			title: '',
 			description: '',
 			dueDate: new Date(),
-			category: '',
-			status: '' // TODO: add status
+			categoryCode,
+			todoStatusCode: 'NOT_STARTED'
 		};
 
 		cleanTodo.title = sanitizeString(title);
@@ -27,7 +27,7 @@ async function createTodo(req, res) {
 
 		cleanTodo.dueDate = dueDate; // TODO: sanitize date
 
-		cleanTodo.category = sanitizeString(category); // TODO: sanitize category
+		cleanTodo.categoryCode = sanitizeString(categoryCode); // TODO: sanitize category
 
 		// validation
 		if (!titleValidation(cleanTodo.title)) {
@@ -54,7 +54,7 @@ async function createTodo(req, res) {
 		// TODO: category validation
 
 		// create on DB
-		const createdTodo = await createDbTodo(cleanTodo);
+		const createdTodo = await todoModel.createDbTodo(cleanTodo);
 
 		console.log(`[createTodo] createdTodo = ${JSON.stringify(createdTodo)}`);
 

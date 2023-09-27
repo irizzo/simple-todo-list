@@ -15,11 +15,10 @@ const httpClient = ({ baseURL}) => {
 
 			return res.json();
 		},
-		get: async (path) => {
+		get: async ({ path }) => {
 			const res = await fetch(`${baseURL}${path}`, {
 				method: 'GET',
-				headers: defaultHeaders,
-				data: JSON.stringify(payload)
+				headers: defaultHeaders
 			});
 
 			return res.json();
