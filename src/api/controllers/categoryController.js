@@ -1,5 +1,6 @@
 const { titleValidation } = require('../../resources/validations');
 const { sanitizeString } = require('../../resources/sanitization');
+const generateIdentifierCode = require('../../resources/generateIdentifier');
 
 const { createDbCategory } = require('../models/categoryModel');
 

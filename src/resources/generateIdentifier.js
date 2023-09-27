@@ -3,3 +3,5 @@ function generateIdentifierCode(title) {
 
 	return identifierCode;
 }
+
+module.exports = generateIdentifierCode;
