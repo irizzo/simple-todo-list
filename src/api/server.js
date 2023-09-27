@@ -6,7 +6,8 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 
 const todoController = require('./controllers/todoController');
-const categoryController = require('./controllers/categoryController')
+const categoryController = require('./controllers/categoryController');
+const statusController = require('./controllers/statusController.js');
 
 const app = express();
 const port = 8080;
@@ -29,6 +30,9 @@ app.post('/create-todo', todoController.createTodo);
 
 // Category routes
 app.post('/create-category', categoryController.createCategory);
+
+// To do Status routes
+app.post('/create-status', statusController.createTodoStatus);
 
 app.listen(port, () => {
 	console.log(`listening on port ${port}`);
