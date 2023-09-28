@@ -1,5 +1,3 @@
-require('dotenv/config');
-
 const httpClient = ({ baseURL}) => {
 	const defaultHeaders = new Headers({
 		'Content-type': 'application/json; charset=UTF-8'

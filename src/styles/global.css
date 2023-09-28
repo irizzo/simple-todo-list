@@ -108,3 +108,7 @@ button:hover {
 
 	text-decoration: none;
 }
+
+.highlight-text {
+	color: var(--highlight-color);
+}
