@@ -1,12 +1,12 @@
-const { collection, addDoc } = require('firebase/firestore');
 const { db } = require('../firebaseConfig');
+
+const todosCollectionRef = db.collection('todos');
 
 async function createDbTodo(todo) {
 	console.log('[/createDbTodo]');
 
-	const todoRef = await addDoc(collection(db, 'todos'), todo);
-	const createdTodoId = todoRef._key.path.segments[1];
-
+	const todoRef = await todosCollectionRef.add(todo);
+	const createdTodoId = todoRef.id;
 
 	return createdTodoId;
 }

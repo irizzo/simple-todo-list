@@ -28,7 +28,6 @@ async function createTodoStatus(req, res) {
 		if (!titleValidation(cleanTodoStatus.title)) {
 			res.status(400).send({
 				code: 'INVALID_TITLE',
-				result: null,
 				success: false
 			});
 
@@ -65,7 +64,7 @@ async function getAllStatus(req, res) {
 	try {
 		const todoStatusList = await todoStatusModel.getAllDbStatus();
 
-		console.log(`todoStatusList = ${JSON.stringify(todoStatusList)}`);
+		// console.log(`todoStatusList = ${JSON.stringify(todoStatusList)}`);
 
 		res.status(200).send({
 			code: 'OK',
@@ -81,9 +80,44 @@ async function getAllStatus(req, res) {
 			success: false
 		});
 	}
-}
+};
+
+async function getTodoStatusByCode(req, res) {
+	console.log('[getTodoStatusByCode] (controller)');
+
+	try {
+		const { todoStatusCode } = req.params;
+
+		const foundTodoStatus = await todoStatusModel.getTodoStatusByCode(todoStatusCode);
+
+		if (!foundTodoStatus) {
+			res.status(404).send({
+				code: 'TODO_STATUS_NOT_FOUND',
+				result: null,
+				success: false
+			});
+
+			return;
+		}
+
+		res.status(200).send({
+			code: 'FOUND_TODO_STATUS',
+			result: foundTodoStatus,
+			success: true
+		});
+
+	} catch (error) {
+		console.log(`ERROR: ${error}`);
+		res.status(500).send({
+			code: 'INTERNAL_ERROR',
+			result: error,
+			success: false
+		});
+	};
+};
 
 module.exports = {
 	createTodoStatus,
-	getAllStatus
+	getAllStatus,
+	getTodoStatusByCode
 };

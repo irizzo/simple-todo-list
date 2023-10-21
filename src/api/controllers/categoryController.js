@@ -42,11 +42,11 @@ async function createCategory(req, res) {
 		cleanCategory.code = generatedIdentifierCode;
 
 		// create on DB
-		const createdCategory = await categoryModel.createDbCategory(cleanCategory);
+		const createdCategoryRes = await categoryModel.createDbCategory(cleanCategory);
 
 		res.status(200).send({
 			code: 'CREATED_CATEGORY',
-			result: createdCategory,
+			result: createdCategoryRes,
 			success: true
 		});
 
@@ -58,15 +58,13 @@ async function createCategory(req, res) {
 			success: false
 		});
 	}
-}
+};
 
 async function getAllCategories(req, res) {
 	console.log('[getAllCategories] (controller)');
 
 	try {
 		const categoriesList = await categoryModel.getAllDbCategories();
-
-		console.log(`categoriesList = ${JSON.stringify(categoriesList)}`);
 
 		res.status(200).send({
 			code: 'OK',
@@ -82,9 +80,45 @@ async function getAllCategories(req, res) {
 			success: false
 		});
 	}
-}
+};
+
+async function getCategoryByCode(req, res) {
+	console.log('[getCategoryByCode] (controller)');
+
+	try {
+		const { categoryCode } = req.params;
+
+		const foundCategory = await categoryModel.getCategoryByCode(categoryCode);
+
+		if(!foundCategory) {
+			res.status(404).send({
+				code: 'CATEGORY_NOT_FOUND',
+				result: null,
+				success: false
+			});
+
+			return;
+		}
+
+		res.status(200).send({
+			code: 'FOUND_CATEGORY',
+			result: foundCategory,
+			success: true
+		});
+
+	} catch (error) {
+		console.log(`ERROR: ${error}`);
+		res.status(500).send({
+			code: 'INTERNAL_ERROR',
+			result: error,
+			success: false
+		});
+	};
+};
+
 
 module.exports = {
 	createCategory,
-	getAllCategories
+	getAllCategories,
+	getCategoryByCode
 };

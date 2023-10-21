@@ -1,26 +1,23 @@
-const { collection, addDoc, query, getDocs, where } = require('firebase/firestore');
+// const { collection, addDoc, query, getDocs, where } = require('firebase/firestore');
 const { db } = require('../firebaseConfig');
 
-const todoStatusCollectionRef = collection(db, 'todoStatus');
+const todoStatusCollectionRef = db.collection('todoStatus');
 
 async function createDbTodoStatus(todoStatus) {
 	console.log('[/createDbTodoStatus]');
 
-	const todoStatusRef = await addDoc(todoStatusCollectionRef, todoStatus);
-	const createdTodoStatusId = todoStatusRef._key.path.segments[1];
+	const todoStatusRef = await todoStatusCollectionRef.doc(todoStatus.code).set(todoStatus);
 
-	return createdTodoStatusId;
-}
+	return todoStatusRef;
+};
 
 async function getAllDbStatus() {
 	console.log('[/getAllDbStatus]');
 
-	const getAllTodoStatusQuery = query(todoStatusCollectionRef);
-	const querySnapshot = await getDocs(getAllTodoStatusQuery);
-
 	const todoStatusList = [];
 
-	querySnapshot.forEach((doc) => {
+	const snapshot = await todoStatusCollectionRef.get();
+	snapshot.forEach(doc => {
 		todoStatusList.push(doc.data());
 	});
 
@@ -30,14 +27,13 @@ async function getAllDbStatus() {
 async function getStatusByCode(statusCode) {
 	console.log('[/getStatusByCode]');
 
-	const getTodoStatusQuery = query(todoStatusCollectionRef, where('code', '==', statusCode));
-	const querySnapshot = await getDocs(getTodoStatusQuery);
-
-	if(querySnapshot.length === 0) {
+	const statusRef = todoStatusCollectionRef.doc(statusCode);
+	const doc = await statusRef.get();
+	if (!doc.exists) {
 		return false;
 	}
 
-	return querySnapshot[0].data();
+	return doc.data();
 }
 
 module.exports = {
