@@ -32,8 +32,6 @@ export default function NewTodo() {
 		loadCategories();
 	}, []);
 
-	// console.log(`categoriesList = ${JSON.stringify(categoriesList)}`);
-
 	async function handleSubmit(e) {
 		e.preventDefault();
 
@@ -78,7 +76,7 @@ export default function NewTodo() {
 	}
 
 	return (
-		<form onSubmit={handleSubmit}>
+		<form onSubmit={handleSubmit} autoComplete='off'>
 			<h2>Create new Todo</h2>
 			<section className='form-item'>
 				<label htmlFor="title">Title</label>

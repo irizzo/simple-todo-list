@@ -11,7 +11,6 @@ import * as categoryServices from '@/services/categoryServices';
 
 export default function NewCategory() {
 	const [ title, setTitle ] = useState('');
-	const [ description, setDescription ] = useState('');
 
 	async function handleSubmit(e) {
 		e.preventDefault();
@@ -22,16 +21,9 @@ export default function NewCategory() {
 		if (!titleValidation(cleanTitle)) {
 			window.alert('Invalid Title');
 			return;
-		}
-
-		const categoryData = {
-			title: cleanTitle,
-			description
 		};
 
-		console.log(`categoryData = ${JSON.stringify(categoryData)}`);
-
-		const createCategoryRes = await categoryServices.createCategory(categoryData);
+		const createCategoryRes = await categoryServices.createCategory({ title: cleanTitle });
 
 		if (createCategoryRes.status === true) {
 			// TODO: redirect to home page
@@ -44,18 +36,12 @@ export default function NewCategory() {
 	}
 
 	return (
-		<form onSubmit={handleSubmit}>
+		<form onSubmit={handleSubmit} autoComplete='off'>
 			<h2>Create Category</h2>
 			<section className='form-item'>
 				<label htmlFor="title">Category Title</label>
 				<input name="title" type="text" required placeholder='Category s title' onChange={(e) => { setTitle(e.target.value); }}></input>
 			</section>
-
-			<section className='form-item'>
-				<label htmlFor="description">Description</label>
-				<textarea name="description" placeholder='Category s description' onChange={(e) => { setDescription(e.target.value); }}></textarea>
-			</section>
-
 			<button className='outlined' type='submit'>Save</button>
 		</form>
 	);

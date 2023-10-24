@@ -8,21 +8,16 @@ async function createCategory(req, res) {
 	try {
 		console.log('[createCategory] (controller)');
 
-		const { title, description } = req.body;
+		const { title } = req.body;
 
-		console.log(`title = ${title}, description = ${description}`);
+		console.log(`title = ${title}`);
 
 		let cleanCategory = {
 			title: '',
-			description: '',
 			code: ''
 		};
 
 		cleanCategory.title = sanitizeString(title);
-
-		if (description) {
-			cleanCategory.description = sanitizeString(description);
-		};
 
 		// validation
 		if (!titleValidation(cleanCategory.title)) {

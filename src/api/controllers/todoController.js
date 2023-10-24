@@ -2,7 +2,6 @@ const { dueDateValidation, titleValidation } = require('../../resources/validati
 const { sanitizeString } = require('../../resources/sanitization');
 
 const todoModel = require('../models/todoModel');
-const todoStatusModel = require('../models/todoStatusModel');
 
 async function createTodo(req, res) {
 	try {
@@ -16,7 +15,7 @@ async function createTodo(req, res) {
 			description: '',
 			dueDate: new Date(),
 			categoryCode,
-			todoStatusCode: 'NOT_STARTED'
+			statusCode: 'NOT_STARTED'
 		};
 
 		cleanTodo.title = sanitizeString(title);
@@ -50,8 +49,6 @@ async function createTodo(req, res) {
 
 			return;
 		}
-
-		// TODO: category validation
 
 		// create on DB
 		const createdTodo = await todoModel.createDbTodo(cleanTodo);

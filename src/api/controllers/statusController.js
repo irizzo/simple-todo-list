@@ -2,30 +2,23 @@ const { titleValidation } = require('../../resources/validations');
 const { sanitizeString } = require('../../resources/sanitization');
 const generateIdentifierCode = require('../../resources/generateIdentifier');
 
-const todoStatusModel = require('../models/todoStatusModel');
+const statusModel = require('../models/statusModel');
 
-async function createTodoStatus(req, res) {
+async function createStatus(req, res) {
 	try {
-		console.log('[createTodoStatus] (controller)');
+		console.log('[createStatus] (controller)');
 
-		const { title, description } = req.body;
+		const { title } = req.body;
 
-		console.log(`title = ${title}, description = ${description}`);
-
-		let cleanTodoStatus = {
+		let cleanStatus = {
 			title: '',
-			description: '',
 			code: ''
 		};
 
-		cleanTodoStatus.title = sanitizeString(title);
-
-		if (description) {
-			cleanTodoStatus.description = sanitizeString(description);
-		};
+		cleanStatus.title = sanitizeString(title);
 
 		// validation
-		if (!titleValidation(cleanTodoStatus.title)) {
+		if (!titleValidation(cleanStatus.title)) {
 			res.status(400).send({
 				code: 'INVALID_TITLE',
 				success: false
@@ -34,18 +27,16 @@ async function createTodoStatus(req, res) {
 			return;
 		};
 
-		const generatedIdentifierCode = generateIdentifierCode(cleanTodoStatus.title);
+		const generatedIdentifierCode = generateIdentifierCode(cleanStatus.title);
 
-		console.log(`generatedIdentifierCode = ${generatedIdentifierCode}`);
-
-		cleanTodoStatus.code = generatedIdentifierCode;
+		cleanStatus.code = generatedIdentifierCode;
 
 		// create on DB
-		const createdTodoStatus = await todoStatusModel.createDbTodoStatus(cleanTodoStatus);
+		const createdStatus = await statusModel.createDbStatus(cleanStatus);
 
 		res.status(200).send({
 			code: 'CREATED_TODO_STATUS',
-			result: createdTodoStatus,
+			result: createdStatus,
 			success: true
 		});
 
@@ -62,13 +53,13 @@ async function createTodoStatus(req, res) {
 async function getAllStatus(req, res) {
 	console.log('[getAllStatus] (controller)');
 	try {
-		const todoStatusList = await todoStatusModel.getAllDbStatus();
+		const statusList = await statusModel.getAllDbStatus();
 
-		// console.log(`todoStatusList = ${JSON.stringify(todoStatusList)}`);
+		// console.log(`statusList = ${JSON.stringify(statusList)}`);
 
 		res.status(200).send({
 			code: 'OK',
-			result: todoStatusList,
+			result: statusList,
 			success: true
 		});
 
@@ -82,15 +73,15 @@ async function getAllStatus(req, res) {
 	}
 };
 
-async function getTodoStatusByCode(req, res) {
-	console.log('[getTodoStatusByCode] (controller)');
+async function getStatusByCode(req, res) {
+	console.log('[getStatusByCode] (controller)');
 
 	try {
-		const { todoStatusCode } = req.params;
+		const { statusCode } = req.params;
 
-		const foundTodoStatus = await todoStatusModel.getTodoStatusByCode(todoStatusCode);
+		const foundStatus = await statusModel.getStatusByCode(statusCode);
 
-		if (!foundTodoStatus) {
+		if (!foundStatus) {
 			res.status(404).send({
 				code: 'TODO_STATUS_NOT_FOUND',
 				result: null,
@@ -102,7 +93,7 @@ async function getTodoStatusByCode(req, res) {
 
 		res.status(200).send({
 			code: 'FOUND_TODO_STATUS',
-			result: foundTodoStatus,
+			result: foundStatus,
 			success: true
 		});
 
@@ -117,7 +108,7 @@ async function getTodoStatusByCode(req, res) {
 };
 
 module.exports = {
-	createTodoStatus,
+	createStatus,
 	getAllStatus,
-	getTodoStatusByCode
+	getStatusByCode
 };
