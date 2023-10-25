@@ -11,6 +11,23 @@ async function createDbTodo(todo) {
 	return createdTodoId;
 }
 
+async function getAllDbTodos() {
+	console.log('[getAllDbTodos]');;
+
+	const todosList = [];
+
+	const snapshot = await todosCollectionRef.get();
+	snapshot.forEach(doc => {
+		todosList.push({
+			id: doc.id,
+			...doc.data()
+		});
+	});
+
+	return todosList;
+}
+
 module.exports = {
-	createDbTodo
+	createDbTodo,
+	getAllDbTodos
 };

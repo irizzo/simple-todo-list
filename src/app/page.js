@@ -1,7 +1,13 @@
+'use client';
+
 import './dashboard.css';
 import TodoCard from '@/components/TodoCard';
 
-const todosList = [
+import * as todoServices from '@/services/todoServices';
+
+import { useState, useEffect } from 'react';
+
+const todosList2 = [
 	{
 		categoryCode: 'WORK',
 		description: 'adadwdawcawc',
@@ -37,12 +43,29 @@ const todosList = [
 ];
 
 export default function Home() {
+	const [ todosList, setTodosList ] = useState(false);
+
+	async function loadTodos() {
+		const l = await todoServices.getTodosList();
+
+		if(l.result.length === 0 || l.status === false) {
+			setTodosList(false);
+		} else {
+			setTodosList(l.result);
+		}
+	}
+	useEffect(() => {
+		loadTodos();
+	}, []);
+
 	return (
 		<div className='cards'>
-			{
+			{ todosList ?
 				todosList.map((todo) => {
 					return <TodoCard key={todo.id} todoInfo={todo} />;
 				})
+				:
+				<p>No tasks found</p>
 			}
 		</div>
 	);

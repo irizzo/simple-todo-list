@@ -23,9 +23,9 @@ export default function NewTodo() {
 
 		if (c.result.length === 0 || c.status === false) {
 			setCategoriesList(false);
+		} else {
+			setCategoriesList(c.result);
 		}
-
-		setCategoriesList(c.result);
 	}
 
 	useEffect(() => {

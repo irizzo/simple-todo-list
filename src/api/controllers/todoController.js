@@ -71,6 +71,26 @@ async function createTodo(req, res) {
 	}
 }
 
+async function getAllTodos(req, res) {
+	console.log('[getAllTodos] (controller)');
+	try {
+		const todosList = await todoModel.getAllDbTodos();
+
+		res.status(200).send({
+			code: 'OK',
+			result: todosList,
+			success: true
+		});
+
+	} catch (error) {
+		console.log(`ERROR: ${error}`);
+		res.status(500).send({
+			code: 'INTERNAL_ERROR',
+			result: error,
+			success: false
+		});
+	}
+}
 // const getAllByDueDate = (dueDate) => {
 // 	// sanitização
 // 	// validação
@@ -78,5 +98,6 @@ async function createTodo(req, res) {
 // };
 
 module.exports = {
-	createTodo
+	createTodo,
+	getAllTodos
 };

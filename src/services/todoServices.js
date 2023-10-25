@@ -15,6 +15,16 @@ export async function createTodo(todoData) {
 	};
 };
 
-export async function getAllTodos() {
-	
-}
+export async function getTodosList() {
+	console.log('[serviceGetTodosList]');
+
+	const getTodosListResponse = await httpClient.get({
+		path: '/get-todos-list'
+	});
+
+	return {
+		status: getTodosListResponse.success.code,
+		result: getTodosListResponse.result,
+		message: dictionary?.[getTodosListResponse.code]
+	};
+};

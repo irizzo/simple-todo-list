@@ -27,6 +27,7 @@ app.get('/', (req, res) => {
 
 // To do routes
 app.post('/create-todo', todoController.createTodo);
+app.get('/get-todos-list', todoController.getAllTodos);
 
 // Category routes
 app.post('/create-category', categoryController.createCategory);
